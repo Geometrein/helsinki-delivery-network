@@ -10,4 +10,6 @@ In this article we will analyse the Helsinki food delivery network during the su
 
 Medium article:
 
-[![Medium Badge](https://img.shields.io/badge/Medium-303030?style=for-the-badge&logo=medium&logoColor=white)]()
+[![Medium Badge](https://img.shields.io/badge/Medium-303030?style=for-the-badge&logo=medium&logoColor=white)](https://geometrein.medium.com/wolt-delivery-network-analysis-cccdc4cb50e3)
+[![Youtube](https://img.shields.io/badge/Demo_Video-0077B5?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/watch?v=FjClhgpisCM)
+
