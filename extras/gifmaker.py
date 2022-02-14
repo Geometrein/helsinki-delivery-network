@@ -13,6 +13,7 @@ from matplotlib.axes._axes import _log as matplotlib_axes_logger
 matplotlib_axes_logger.setLevel('ERROR')
 
 
+
 def get_shortest_paths(G: nx.Graph, origin_nodes: list, destination_nodes: list, weight: str) -> tuple:
     """
     This function calculates the shortest paths based on weight parameter.
@@ -72,8 +73,14 @@ def get_shortest_path_lengths(G: nx.Graph, origin_nodes: list, destination_nodes
     return length_list, nan_index_list
 
 
-def make_mapper(lst):
+def make_mapper(lst: list) -> tuple:
     """
+    This function makes Matplotlib scalarMapper for the route colors.
+    ---
+    Args:
+        lst (list): list containing route lengths
+    Returns:
+        tuple (tuple): (Matplotlib scalarMapper (list) and color_list (list))
     """
     cmap = plt.cm.get_cmap('plasma_r')
     minima = min(lst)
@@ -90,8 +97,14 @@ def make_mapper(lst):
     return mapper, color_list
 
 
-def create_g(df):
+def create_g(df: pd.DataFrame) -> tuple:
     """
+    This function creates a base graph to plot on.
+    ---
+    Args:
+        df (pd.DataFrame): 
+    Returns:
+        tuple (tuple): (nx.Graph object, origin nodes (list) dest. nodes (list))
     """
     centroid = [60.1699, 24.9384]
     mode = "drive"
@@ -114,7 +127,8 @@ def plot_routes(G: nx.Graph, df: pd.DataFrame, start, end, hour, day, mapper):
         end (datetime): index for filtering the routes
         hour (int): integer hour 0-24
         day (int): integer date 1-31
-        mapper ():
+        mapper: Matplotlib scalarMapper
+
     Returns: None
     """
 
@@ -148,11 +162,16 @@ def plot_routes(G: nx.Graph, df: pd.DataFrame, start, end, hour, day, mapper):
     fig.savefig(filepath, facecolor='white', transparent=False)
 
 
-def generate_images(G, df, mapper):
+def generate_images(G: nx.Graph, df: pd.DataFrame, mapper: list) -> None:
     """
+    This function generates each frame of the animation.
     ---
     Args:
-        G, df, mapper
+        G (nx.Graph):
+        df (pd.DataFrame):
+        mapper (list):
+
+    Returns: None
     """
     year = 2020
     month = 8
@@ -167,8 +186,14 @@ def generate_images(G, df, mapper):
 
             plot_routes(G, df, start, end, hour, day, mapper)
 
-def generate_video(path):
+
+def generate_video(path: str) -> None:
     """
+    This function generates the video.
+    ---
+    Args:
+        path (str): Path to image frames.
+    Returns: None
     """
     images = list()
     for file in sorted(Path(path).iterdir()):
@@ -180,8 +205,14 @@ def generate_video(path):
     for img in images:
         writer.append_data(img)
 
-def gifmaker(path):
+
+def gifmaker(path: str) -> None:
     """
+    This function generates the video.
+    ---
+    Args:
+        path (str): Path to image frames.
+    Returns: None
     """
     images = list()
     for file in sorted(Path(path).iterdir()):
@@ -192,7 +223,10 @@ def gifmaker(path):
     iio.mimsave(f'wolt_{duration}.gif', images, duration=duration)
 
 
-def main():
+def main(generate_gif: bool, generate_mp4: bool):
+    """
+    I am singing in the main().
+    """
     path = 'images/'
     filenames = os.listdir(path)
 
@@ -220,12 +254,14 @@ def main():
 
         generate_images(G, df, mapper)
 
+    if generate_gif:
+        gifmaker(path)
 
-    #gifmaker(path)
-    generate_video(path)
+    if generate_mp4:
+        generate_video(path)
 
     print('done')
 
 
 if __name__ == '__main__':
-    main()
+    main(generate_gif=False, generate_video=False)
